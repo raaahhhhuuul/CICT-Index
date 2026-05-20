@@ -41,7 +41,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <p className={`text-[10px] tracking-[0.38em] uppercase mb-3 font-medium ${darkMode ? 'text-[#D4A017]/58' : 'text-[#B55239]/68'}`}>
+          <p className={`text-[11.5px] tracking-[0.35em] uppercase mb-3 font-medium ${darkMode ? 'text-[#D4A017]/58' : 'text-[#B55239]/68'}`}>
             Digital Search Portal
           </p>
           <h2
@@ -80,7 +80,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
 
             {/* Word input */}
             <div className="flex-1 relative pt-5">
-              <label className={`absolute top-2 left-3.5 text-[9px] px-1 tracking-wider font-semibold z-10 uppercase ${
+              <label className={`absolute top-2 left-3.5 text-[11px] px-1 tracking-wider font-semibold z-10 uppercase ${
                 darkMode ? 'text-[#D4A017] bg-[#2A1F18]' : 'text-[#6B0F1A] bg-white'
               }`}>
                 சொல் / Word
@@ -109,7 +109,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
 
             {/* Book dropdown */}
             <div className="relative min-w-[220px] pt-5">
-              <label className={`absolute top-2 left-3.5 text-[9px] px-1 tracking-wider font-semibold z-10 uppercase ${
+              <label className={`absolute top-2 left-3.5 text-[11px] px-1 tracking-wider font-semibold z-10 uppercase ${
                 darkMode ? 'text-[#D4A017] bg-[#2A1F18]' : 'text-[#6B0F1A] bg-white'
               }`}>
                 நூல் / Book

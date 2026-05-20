@@ -46,7 +46,7 @@ export default function Footer({ darkMode }) {
                 <p className="text-[#FFD54F] font-tamil-serif font-bold text-base leading-tight">
                   செவ்வியல் தமிழ்
                 </p>
-                <p className="text-[#D4A017]/55 text-[9px] tracking-[0.18em] uppercase mt-0.5">
+                <p className="text-[#D4A017]/55 text-[10.5px] tracking-[0.16em] uppercase mt-0.5">
                   Classical Tamil Archive
                 </p>
               </div>
@@ -81,7 +81,7 @@ export default function Footer({ darkMode }) {
                     <motion.a
                       href="#"
                       whileHover={{ x: 4 }}
-                      className="text-[#F5E6CC]/42 hover:text-[#D4A017] text-[12px] font-tamil-serif transition-colors inline-block"
+                      className="text-[#F5E6CC]/42 hover:text-[#D4A017] text-[13px] font-tamil-serif transition-colors inline-block"
                     >
                       {item}
                     </motion.a>
@@ -100,7 +100,7 @@ export default function Footer({ darkMode }) {
               { icon: Phone, text: '+91 44 2345 6789'   },
               { icon: Globe, text: 'www.cict.in'        },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-[#D4A017]/45 text-xs">
+              <div key={text} className="flex items-center gap-2 text-[#D4A017]/45 text-[13px]">
                 <Icon size={11} className="text-[#D4A017]/60" />
                 <span>{text}</span>
               </div>
@@ -109,7 +109,7 @@ export default function Footer({ darkMode }) {
         </div>
 
         {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-[#F5E6CC]/22">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#F5E6CC]/22">
           <p className="font-tamil-serif text-center sm:text-left">
             © 2024 செம்மொழித் தமிழாய்வு மத்திய நிறுவனம். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
           </p>

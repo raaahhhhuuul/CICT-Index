@@ -73,7 +73,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
         >
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
             <div>
-              <p className={`text-[10px] tracking-[0.32em] uppercase mb-2 ${darkMode ? 'text-[#D4A017]/58' : 'text-[#B55239]/68'}`}>
+              <p className={`text-[11.5px] tracking-[0.3em] uppercase mb-2 ${darkMode ? 'text-[#D4A017]/58' : 'text-[#B55239]/68'}`}>
                 Search Results
               </p>
               <h2 className={`font-tamil-serif text-2xl font-bold ${darkMode ? 'text-[#F5E6CC]' : 'text-[#6B0F1A]'}`}>
@@ -145,7 +145,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                       <th
                         key={col.key}
                         onClick={() => handleSort(col.key)}
-                        className="px-6 py-5 text-left text-[#FFD54F] font-tamil-serif font-semibold text-xs tracking-wide cursor-pointer hover:text-[#FFE082] select-none transition-colors"
+                        className="px-6 py-5 text-left text-[#FFD54F] font-tamil-serif font-semibold text-[13.5px] tracking-wide cursor-pointer hover:text-[#FFE082] select-none transition-colors"
                       >
                         <div className="flex items-center gap-1.5">
                           {col.label}
@@ -230,7 +230,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                 { label: 'சொற்கள்பிரித்தபாடம்',  key: 'solPirittha'    },
               ].map(({ label, key }) => (
                 <div key={key} className={`mt-3 pt-3 border-t ${darkMode ? 'border-[#D4A017]/8' : 'border-[#E8D5B5]'}`}>
-                  <p className={`text-[9px] uppercase tracking-wider mb-1 ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
+                  <p className={`text-[11px] uppercase tracking-wider mb-1 ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
                     {label}
                   </p>
                   <p className={`font-tamil-serif text-sm leading-relaxed ${darkMode ? 'text-[#F5E6CC]/82' : 'text-[#1F1B16]/82'}`}>
@@ -253,7 +253,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
             <button
               onClick={() => setPage(p => Math.max(0, p - 1))}
               disabled={page === 0}
-              className={`px-6 py-2.5 rounded-xl text-xs font-tamil-serif border transition-all ${
+              className={`px-6 py-2.5 rounded-xl text-[13px] font-tamil-serif border transition-all ${
                 page === 0
                   ? darkMode ? 'border-[#3D2F24] text-[#7A5C43] cursor-not-allowed' : 'border-[#E8D5B5] text-[#C0A882] cursor-not-allowed'
                   : darkMode ? 'border-[#D4A017]/28 text-[#D4A017] hover:bg-[#D4A017]/10' : 'border-[#6B0F1A]/18 text-[#6B0F1A] hover:bg-[#6B0F1A]/5'
@@ -267,7 +267,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                 <button
                   key={i}
                   onClick={() => setPage(i)}
-                  className={`w-9 h-9 rounded-lg text-xs font-medium transition-all ${
+                  className={`w-9 h-9 rounded-lg text-[13px] font-medium transition-all ${
                     page === i
                       ? 'bg-[#6B0F1A] text-white shadow-md'
                       : darkMode
@@ -283,7 +283,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
             <button
               onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
               disabled={page === totalPages - 1}
-              className={`px-6 py-2.5 rounded-xl text-xs font-tamil-serif border transition-all ${
+              className={`px-6 py-2.5 rounded-xl text-[13px] font-tamil-serif border transition-all ${
                 page === totalPages - 1
                   ? darkMode ? 'border-[#3D2F24] text-[#7A5C43] cursor-not-allowed' : 'border-[#E8D5B5] text-[#C0A882] cursor-not-allowed'
                   : darkMode ? 'border-[#D4A017]/28 text-[#D4A017] hover:bg-[#D4A017]/10' : 'border-[#6B0F1A]/18 text-[#6B0F1A] hover:bg-[#6B0F1A]/5'

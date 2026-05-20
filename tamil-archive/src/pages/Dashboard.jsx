@@ -95,7 +95,7 @@ export default function Dashboard() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.65 }}
                 >
-                  <p className="text-[#D4A017]/55 text-[9px] tracking-[0.35em] uppercase mb-2">
+                  <p className="text-[#D4A017]/55 text-[11px] tracking-[0.32em] uppercase mb-2">
                     Digital Archive Dashboard
                   </p>
                   <h1 className="font-tamil-serif font-bold text-[#FFD54F] mb-2"
@@ -124,8 +124,8 @@ export default function Dashboard() {
                       key={s.label}
                       className="text-center px-7 py-4 rounded-xl border border-[#D4A017]/18 bg-[#D4A017]/7"
                     >
-                      <p className="text-[#FFD54F] text-lg font-bold font-playfair leading-none mb-1">{s.value}</p>
-                      <p className="text-[#D4A017]/55 text-[9px] font-tamil-serif uppercase tracking-wide">{s.label}</p>
+                      <p className="text-[#FFD54F] text-xl font-bold font-playfair leading-none mb-1">{s.value}</p>
+                      <p className="text-[#D4A017]/55 text-[10px] font-tamil-serif uppercase tracking-wide">{s.label}</p>
                     </div>
                   ))}
                 </motion.div>

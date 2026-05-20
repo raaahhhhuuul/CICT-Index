@@ -71,7 +71,7 @@ export default function Hero({ darkMode, onCTAClick }) {
             <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0" />
             <span
               className="text-[#D4A017]/90 font-medium uppercase tracking-[0.22em] leading-none"
-              style={{ fontSize: 'clamp(9px, 1.2vw, 11px)' }}
+              style={{ fontSize: 'clamp(10.5px, 1.2vw, 12.5px)' }}
             >
               Classical Tamil Literature Archive
             </span>
@@ -127,7 +127,7 @@ export default function Hero({ darkMode, onCTAClick }) {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.05, duration: 0.6 }}
             className="text-[#D4A017]/45 uppercase mb-16"
-            style={{ fontSize: 'clamp(9px, 1.1vw, 11px)', letterSpacing: '0.3em' }}
+            style={{ fontSize: 'clamp(10.5px, 1.1vw, 12px)', letterSpacing: '0.3em' }}
           >
             Central Institute of Classical Tamil
           </motion.p>
@@ -193,7 +193,7 @@ export default function Hero({ darkMode, onCTAClick }) {
             transition={{ delay: 1.9, duration: 0.6 }}
             className="mt-20 sm:mt-24 flex flex-col items-center gap-3"
           >
-            <span className="text-[#D4A017]/32 uppercase tracking-[0.42em]" style={{ fontSize: '9px' }}>
+            <span className="text-[#D4A017]/32 uppercase tracking-[0.42em]" style={{ fontSize: '10.5px' }}>
               கீழே செல்க
             </span>
             <motion.div
