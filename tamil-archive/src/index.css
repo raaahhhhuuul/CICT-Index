@@ -2,42 +2,55 @@
 
 @import "tailwindcss";
 
-* {
-  scroll-behavior: smooth;
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   font-family: 'Noto Sans Tamil', 'Segoe UI', sans-serif;
   background-color: #FAF6EF;
   color: #1F1B16;
+  line-height: 1.6;
 }
 
-.dark body {
-  background-color: #1F1B16;
-  color: #F5E6CC;
+#root {
+  width: 100%;
 }
 
-.font-tamil-serif {
-  font-family: 'Noto Serif Tamil', serif;
-}
+/* ─── Typography Utilities ─── */
+.font-tamil-serif { font-family: 'Noto Serif Tamil', serif; }
+.font-playfair    { font-family: 'Playfair Display', serif; }
 
-.font-playfair {
-  font-family: 'Playfair Display', serif;
+/* ─── Universal Container ─── */
+.cx {
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 }
+@media (min-width: 640px)  { .cx { padding-inline: 2rem; } }
+@media (min-width: 1024px) { .cx { padding-inline: 3.5rem; } }
+@media (min-width: 1280px) { .cx { padding-inline: 4rem; } }
 
-::-webkit-scrollbar { width: 6px; }
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar       { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(212,160,23,0.6); }
+::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.28); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212,160,23,0.55); }
 
+/* ─── Gold shimmer ─── */
 @keyframes goldShimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
 }
-
 .gold-shimmer {
   background: linear-gradient(90deg, #D4A017, #FFD54F, #D4A017, #B8860B);
   background-size: 200% auto;
@@ -47,63 +60,57 @@ body {
   animation: goldShimmer 3s linear infinite;
 }
 
+/* ─── Float animation ─── */
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
-  50% { transform: translateY(-18px) rotate(180deg); opacity: 0.9; }
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.45; }
+  50%       { transform: translateY(-16px) rotate(180deg); opacity: 0.85; }
 }
 .float-particle { animation: float 5s ease-in-out infinite; }
 
+/* ─── Glassmorphism ─── */
 .glass-card {
-  background: rgba(245, 230, 204, 0.12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(212, 160, 23, 0.25);
+  background: rgba(245,230,204,0.10);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212,160,23,0.22);
 }
 
-.dark .glass-card {
-  background: rgba(31, 27, 22, 0.65);
-  border: 1px solid rgba(212, 160, 23, 0.35);
-}
-
+/* ─── Gold glow ─── */
 .gold-glow {
-  box-shadow: 0 0 18px rgba(212,160,23,0.45), 0 0 38px rgba(212,160,23,0.2);
+  box-shadow: 0 0 20px rgba(212,160,23,0.42), 0 0 40px rgba(212,160,23,0.18);
 }
 
+/* ─── Search highlight ─── */
 .highlight-word {
-  background: rgba(255,213,79,0.38);
+  background: rgba(255,213,79,0.35);
   border-radius: 3px;
   padding: 1px 4px;
-  box-shadow: 0 0 8px rgba(255,213,79,0.55);
+  box-shadow: 0 0 8px rgba(255,213,79,0.5);
   font-weight: 600;
 }
 
-@keyframes counterUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.counter-animate { animation: counterUp 0.6s ease forwards; }
-
+/* ─── Kolam dot pattern ─── */
 .kolam-bg {
   background-image:
     radial-gradient(circle at 20% 20%, rgba(212,160,23,0.08) 2px, transparent 2px),
     radial-gradient(circle at 80% 80%, rgba(212,160,23,0.08) 2px, transparent 2px),
-    radial-gradient(circle at 80% 20%, rgba(181,82,57,0.06) 2px, transparent 2px),
-    radial-gradient(circle at 20% 80%, rgba(181,82,57,0.06) 2px, transparent 2px);
+    radial-gradient(circle at 80% 20%, rgba(181,82,57,0.05) 2px, transparent 2px),
+    radial-gradient(circle at 20% 80%, rgba(181,82,57,0.05) 2px, transparent 2px);
   background-size: 44px 44px;
 }
 
-.manuscript-noise {
-  position: relative;
-}
+/* ─── Manuscript noise texture ─── */
+.manuscript-noise { position: relative; }
 .manuscript-noise::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
 }
 
+/* ─── Ornament divider ─── */
 .ornament-line {
   display: flex;
   align-items: center;
@@ -117,42 +124,19 @@ body {
   background: linear-gradient(90deg, transparent, #D4A017, transparent);
 }
 
-/* Section spacing utilities */
-.section-padding {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
+/* ─── Counter animation ─── */
+@keyframes counterUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+.counter-animate { animation: counterUp 0.5s ease forwards; }
 
-@media (min-width: 1024px) {
-  .section-padding {
-    padding-top: 9rem;
-    padding-bottom: 9rem;
-  }
-}
-
-#root {
-  width: 100%;
-  text-align: left;
-}
-
-/* Custom Tamil cursor — hides default cursor on non-touch devices */
+/* ─── Custom Tamil cursor ─── */
 body.tamil-cursor-active,
 body.tamil-cursor-active * {
   cursor: none !important;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Page transition base */
-.page-enter {
-  opacity: 0;
-  transform: translateY(8px);
-}
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
+/* ─── Page transition ─── */
+.page-enter         { opacity: 0; transform: translateY(8px); }
+.page-enter-active  { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease, transform 0.4s ease; }

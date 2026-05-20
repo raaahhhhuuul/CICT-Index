@@ -11,12 +11,11 @@ import { tableData } from '../data/literatureData';
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('ta_theme') === 'dark');
+  const [darkMode, setDarkMode]   = useState(() => localStorage.getItem('ta_theme') === 'dark');
   const [searchWord, setSearchWord] = useState('');
-  const [results, setResults] = useState(tableData);
-  const [loading, setLoading] = useState(true);
-
-  const { user } = useAuth();
+  const [results, setResults]       = useState(tableData);
+  const [loading, setLoading]       = useState(true);
+  const { user }                    = useAuth();
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1600);
@@ -35,11 +34,7 @@ export default function Dashboard() {
 
   const handleSearch = (word, book) => {
     const filtered = tableData.filter((row) => {
-      const matchWord =
-        !word.trim() ||
-        row.moolaPadam.includes(word) ||
-        row.sandhiPirittha.includes(word) ||
-        row.solPirittha.includes(word);
+      const matchWord = !word.trim() || row.moolaPadam.includes(word) || row.sandhiPirittha.includes(word) || row.solPirittha.includes(word);
       const matchBook = book === 'செவ்வியல் நூல்கள்' || row.nool === book;
       return matchWord && matchBook;
     });
@@ -64,66 +59,82 @@ export default function Dashboard() {
         <>
           <Navbar darkMode={darkMode} toggleDark={toggleDark} variant="dashboard" />
 
-          {/* Dashboard welcome banner */}
+          {/* ── Welcome banner ── */}
           <section
-            className="pt-24 pb-12 px-4 relative overflow-hidden"
+            className="relative overflow-hidden"
             style={{
               background: darkMode
                 ? 'linear-gradient(135deg, #1A1510 0%, #2D1F0E 50%, #1F1B16 100%)'
                 : 'linear-gradient(135deg, #3D0B13 0%, #6B0F1A 50%, #8B3A1A 100%)',
+              paddingTop: '7.5rem',
+              paddingBottom: '4.5rem',
             }}
           >
-            {/* Background kolam pattern */}
-            <div className="absolute inset-0 kolam-bg opacity-20 pointer-events-none" />
+            {/* Kolam + noise textures */}
+            <div className="absolute inset-0 kolam-bg opacity-18 pointer-events-none" />
+            <div className="absolute inset-0 manuscript-noise pointer-events-none" />
+
             {/* Top gold line */}
             <div
               className="absolute top-0 left-0 right-0 h-px pointer-events-none"
               style={{ background: 'linear-gradient(90deg, transparent, #D4A017, #FFD54F, #D4A017, transparent)' }}
             />
 
-            <div className="max-w-7xl mx-auto relative z-10">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Radial glow */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse 55% 70% at 50% 50%, rgba(212,160,23,0.07) 0%, transparent 70%)' }}
+            />
+
+            <div className="cx relative z-10">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+
+                {/* Left: greeting */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.65 }}
                 >
-                  <p className="text-[#D4A017]/60 text-[10px] tracking-[0.3em] uppercase mb-1">
+                  <p className="text-[#D4A017]/55 text-[9px] tracking-[0.35em] uppercase mb-2">
                     Digital Archive Dashboard
                   </p>
-                  <h1 className="font-tamil-serif text-2xl sm:text-3xl font-bold text-[#FFD54F]">
+                  <h1 className="font-tamil-serif font-bold text-[#FFD54F] mb-2"
+                    style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)' }}
+                  >
                     வணக்கம், {user?.name}!
                   </h1>
-                  <p className="text-[#F5E6CC]/45 text-xs font-tamil-serif mt-1">
+                  <p className="text-[#F5E6CC]/40 text-xs font-tamil-serif">
                     செவ்வியல் தமிழ் இலக்கியங்களை இன்று தேடுங்கள்
                   </p>
                 </motion.div>
 
+                {/* Right: quick stats */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.15 }}
-                  className="hidden sm:flex items-center gap-3"
+                  transition={{ duration: 0.65, delay: 0.15 }}
+                  className="hidden sm:flex items-center gap-4"
                 >
                   {[
-                    { label: 'நூல்கள்', value: '12+' },
+                    { label: 'நூல்கள்',    value: '12+' },
                     { label: 'ஆசிரியர்கள்', value: '48+' },
+                    { label: 'அடிகள்',     value: '10K+' },
                   ].map((s) => (
                     <div
                       key={s.label}
-                      className="text-center px-6 py-4 rounded-xl border border-[#D4A017]/20 bg-[#D4A017]/8"
+                      className="text-center px-7 py-4 rounded-xl border border-[#D4A017]/18 bg-[#D4A017]/7"
                     >
-                      <p className="text-[#FFD54F] text-lg font-bold font-playfair">{s.value}</p>
-                      <p className="text-[#D4A017]/60 text-[10px] font-tamil-serif">{s.label}</p>
+                      <p className="text-[#FFD54F] text-lg font-bold font-playfair leading-none mb-1">{s.value}</p>
+                      <p className="text-[#D4A017]/55 text-[9px] font-tamil-serif uppercase tracking-wide">{s.label}</p>
                     </div>
                   ))}
                 </motion.div>
               </div>
             </div>
 
-            {/* Bottom fade */}
+            {/* Bottom gradient fade */}
             <div
-              className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
+              className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
               style={{
                 background: darkMode
                   ? 'linear-gradient(to bottom, transparent, #1F1B16)'

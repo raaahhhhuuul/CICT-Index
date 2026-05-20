@@ -5,45 +5,39 @@ import { User, Mail, Lock, Eye, EyeOff, BookOpen, ArrowRight, Check } from 'luci
 import { useAuth } from '../context/AuthContext';
 import TamilCursor from '../components/cursor/TamilCursor';
 
-const PARTICLES = Array.from({ length: 14 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
   id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
+  x: (i * 8.33 + 6) % 100,
+  y: (i * 13.2 + 4) % 100,
   char: ['ம', 'ழ', 'க', 'அ', 'த', 'இ', 'ண', 'ப'][i % 8],
-  size: 12 + Math.random() * 10,
-  delay: Math.random() * 3,
-  duration: 4 + Math.random() * 3,
+  size: 10 + (i % 3) * 3,
+  delay: (i * 0.32) % 3,
+  duration: 5 + (i % 3) * 1.5,
 }));
 
 export default function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name,        setName]        = useState('');
+  const [email,       setEmail]       = useState('');
+  const [password,    setPassword]    = useState('');
   const [confirmPass, setConfirmPass] = useState('');
-  const [showPass, setShowPass] = useState(false);
+  const [showPass,    setShowPass]    = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  const [error,       setError]       = useState('');
+  const [submitting,  setSubmitting]  = useState(false);
 
   const { signup, user } = useAuth();
-  const navigate = useNavigate();
+  const navigate         = useNavigate();
 
   if (user) return <Navigate to="/dashboard" replace />;
 
-  const passwordsMatch = password && confirmPass && password === confirmPass;
-  const passwordStrong = password.length >= 6;
+  const passwordsMatch  = password && confirmPass && password === confirmPass;
+  const passwordStrong  = password.length >= 6;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-    if (!passwordStrong) {
-      setError('கடவுச்சொல் குறைந்தது 6 எழுத்துக்கள் இருக்க வேண்டும்');
-      return;
-    }
-    if (password !== confirmPass) {
-      setError('கடவுச்சொற்கள் பொருந்தவில்லை');
-      return;
-    }
+    if (!passwordStrong) { setError('கடவுச்சொல் குறைந்தது 6 எழுத்துக்கள் இருக்க வேண்டும்'); return; }
+    if (password !== confirmPass) { setError('கடவுச்சொற்கள் பொருந்தவில்லை'); return; }
     setSubmitting(true);
     try {
       signup(name, email, password);
@@ -54,158 +48,167 @@ export default function SignUp() {
     }
   };
 
-  const inputClass =
-    'w-full py-4 rounded-xl text-sm text-[#F5E6CC] placeholder-[#7A5C43] outline-none transition-all duration-300 bg-[#1F1B16]/60 border border-[#3D2F24] focus:border-[#D4A017] focus:ring-2 focus:ring-[#D4A017]/20 font-tamil-serif';
+  const inputCls = [
+    'w-full rounded-xl text-sm text-[#F5E6CC] placeholder-[#5A4535] outline-none transition-all duration-300',
+    'bg-[#1E1812]/70 border border-[#3A2D22] font-tamil-serif',
+    'focus:border-[#D4A017] focus:ring-2 focus:ring-[#D4A017]/18',
+    'py-4',
+  ].join(' ');
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #0D0A07 0%, #1F1B16 30%, #2D1F0E 60%, #3D1A0A 100%)' }}
+      className="min-h-screen flex items-center justify-center py-12 px-5 relative overflow-hidden"
+      style={{ background: 'linear-gradient(145deg, #0D0A07 0%, #1A1510 30%, #2D1F0E 65%, #3D1A0A 100%)' }}
     >
       <TamilCursor />
 
-      {/* Gold top line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+      {/* Top gold line */}
+      <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
         style={{ background: 'linear-gradient(90deg, transparent, #D4A017, #FFD54F, #D4A017, transparent)' }}
       />
 
-      {/* Floating Tamil particles */}
-      {PARTICLES.map((p) => (
-        <motion.span
-          key={p.id}
-          className="absolute font-tamil-serif pointer-events-none select-none"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'rgba(212,160,23,0.15)' }}
-          animate={{ y: [0, -18, 0], rotate: [0, 180, 360], opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          {p.char}
-        </motion.span>
-      ))}
+      {/* Particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {PARTICLES.map((p) => (
+          <motion.span
+            key={p.id}
+            className="absolute font-tamil-serif select-none"
+            style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: 'rgba(212,160,23,0.12)' }}
+            animate={{ y: [0, -14, 0], rotate: [0, 180, 360], opacity: [0.15, 0.40, 0.15] }}
+            transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            {p.char}
+          </motion.span>
+        ))}
+      </div>
 
       {/* Radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,160,23,0.07) 0%, transparent 70%)' }}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 55% 45% at 50% 50%, rgba(212,160,23,0.07) 0%, transparent 70%)' }}
       />
 
       {/* Logo */}
-      <Link to="/" className="absolute top-5 left-5 sm:top-6 sm:left-8">
-        <motion.div whileHover={{ scale: 1.04 }} className="flex items-center gap-2">
+      <Link to="/" className="absolute top-6 left-6 sm:top-7 sm:left-8">
+        <motion.div whileHover={{ scale: 1.04 }} className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6B0F1A] to-[#D4A017] flex items-center justify-center shadow-md">
-            <BookOpen size={18} className="text-white" />
+            <BookOpen size={17} className="text-white" />
           </div>
-          <div>
-            <p className="text-xs font-semibold font-tamil-serif text-[#FFD54F] leading-none">செவ்வியல்</p>
-            <p className="text-[10px] text-[#D4A017] leading-none mt-0.5">Tamil Archive</p>
+          <div className="hidden sm:block">
+            <p className="text-[11px] font-semibold font-tamil-serif text-[#FFD54F] leading-none tracking-wide">செவ்வியல்</p>
+            <p className="text-[9px] text-[#D4A017]/65 leading-none mt-0.5 tracking-wider uppercase">Tamil Archive</p>
           </div>
         </motion.div>
       </Link>
 
       {/* Card */}
       <motion.div
-        initial={{ opacity: 0, y: 36, scale: 0.96 }}
+        initial={{ opacity: 0, y: 32, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.65, ease: 'easeOut' }}
-        className="w-full max-w-md relative z-10"
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-[580px] relative z-10"
       >
         <div
-          className="rounded-2xl p-10 sm:p-12"
+          className="rounded-3xl"
           style={{
-            background: 'rgba(45,36,32,0.72)',
-            backdropFilter: 'blur(22px)',
-            WebkitBackdropFilter: 'blur(22px)',
-            border: '1px solid rgba(212,160,23,0.22)',
-            boxShadow: '0 24px 64px rgba(0,0,0,0.45), 0 0 50px rgba(212,160,23,0.04)',
+            background: 'rgba(38,28,22,0.78)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
+            border: '1px solid rgba(212,160,23,0.20)',
+            boxShadow: '0 32px 80px rgba(0,0,0,0.50), 0 0 60px rgba(212,160,23,0.04)',
+            padding: 'clamp(2.5rem, 5vw, 4rem) clamp(2rem, 5vw, 3.5rem)',
           }}
         >
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-9">
             <motion.div
-              initial={{ scale: 0.7, opacity: 0 }}
+              initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="w-20 h-20 rounded-full mx-auto mb-5 flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #6B0F1A 0%, #D4A017 100%)', boxShadow: '0 0 28px rgba(212,160,23,0.3)' }}
+              transition={{ delay: 0.2, duration: 0.55 }}
+              className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, #6B0F1A 0%, #D4A017 100%)',
+                boxShadow: '0 0 32px rgba(212,160,23,0.32)',
+              }}
             >
               <span className="font-tamil-serif text-white text-2xl font-bold select-none">ப</span>
             </motion.div>
-            <h1 className="font-tamil-serif text-2xl font-bold text-[#FFD54F] mb-1">பதிவு செய்க</h1>
-            <p className="text-[#D4A017]/55 text-[10px] tracking-[0.3em] uppercase">Create Your Account</p>
+            <h1 className="font-tamil-serif text-[1.6rem] font-bold text-[#FFD54F] mb-1.5">பதிவு செய்க</h1>
+            <p className="text-[#D4A017]/48 text-[9px] tracking-[0.34em] uppercase">Create Your Account</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+
             {/* Name */}
             <div>
-              <label className="block text-[10px] font-medium text-[#D4A017]/65 tracking-[0.2em] uppercase mb-2">
+              <label className="block text-[9px] font-semibold text-[#D4A017]/60 tracking-[0.22em] uppercase mb-2.5">
                 பெயர் / Name
               </label>
               <div className="relative">
-                <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#D4A017]/45 pointer-events-none" />
+                <User size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4A017]/38 pointer-events-none" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="உங்கள் பெயர்"
                   required
-                  className={`${inputClass} pl-10 pr-4`}
+                  className={`${inputCls} pl-11 pr-4`}
                 />
               </div>
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-[10px] font-medium text-[#D4A017]/65 tracking-[0.2em] uppercase mb-2">
+              <label className="block text-[9px] font-semibold text-[#D4A017]/60 tracking-[0.22em] uppercase mb-2.5">
                 மின்னஞ்சல் / Email
               </label>
               <div className="relative">
-                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#D4A017]/45 pointer-events-none" />
+                <Mail size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4A017]/38 pointer-events-none" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className={`${inputClass} pl-10 pr-4`}
+                  className={`${inputCls} pl-11 pr-4`}
                 />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-[10px] font-medium text-[#D4A017]/65 tracking-[0.2em] uppercase mb-2">
+              <label className="block text-[9px] font-semibold text-[#D4A017]/60 tracking-[0.22em] uppercase mb-2.5">
                 கடவுச்சொல் / Password
               </label>
               <div className="relative">
-                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#D4A017]/45 pointer-events-none" />
+                <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4A017]/38 pointer-events-none" />
                 <input
                   type={showPass ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="குறைந்தது 6 எழுத்துக்கள்"
                   required
-                  className={`${inputClass} pl-10 pr-11`}
+                  className={`${inputCls} pl-11 pr-12`}
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPass((v) => !v)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#7A5C43] hover:text-[#D4A017] transition-colors"
+                  onClick={() => setShowPass(v => !v)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#5A4535] hover:text-[#D4A017] transition-colors"
                 >
-                  {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
+                  {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
               </div>
-              {/* Password strength indicator */}
+              {/* Strength indicator */}
               {password && (
-                <div className="mt-1.5 flex items-center gap-1.5">
+                <div className="mt-2 flex items-center gap-1.5">
                   {[...Array(3)].map((_, i) => (
                     <div
                       key={i}
                       className="h-0.5 flex-1 rounded-full transition-all duration-300"
                       style={{
                         background: password.length > i * 3
-                          ? (password.length >= 10 ? '#D4A017' : password.length >= 6 ? '#B55239' : '#7A5C43')
-                          : 'rgba(212,160,23,0.12)',
+                          ? password.length >= 10 ? '#D4A017' : password.length >= 6 ? '#B55239' : '#7A5C43'
+                          : 'rgba(212,160,23,0.10)',
                       }}
                     />
                   ))}
@@ -218,30 +221,28 @@ export default function SignUp() {
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-[10px] font-medium text-[#D4A017]/65 tracking-[0.2em] uppercase mb-2">
+              <label className="block text-[9px] font-semibold text-[#D4A017]/60 tracking-[0.22em] uppercase mb-2.5">
                 கடவுச்சொல் உறுதி / Confirm Password
               </label>
               <div className="relative">
-                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#D4A017]/45 pointer-events-none" />
+                <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4A017]/38 pointer-events-none" />
                 <input
                   type={showConfirm ? 'text' : 'password'}
                   value={confirmPass}
                   onChange={(e) => setConfirmPass(e.target.value)}
                   placeholder="மீண்டும் உள்ளிடுக"
                   required
-                  className={`${inputClass} pl-10 pr-11`}
-                  style={{ borderColor: confirmPass ? (passwordsMatch ? 'rgba(212,160,23,0.5)' : 'rgba(220,38,38,0.4)') : undefined }}
+                  className={`${inputCls} pl-11 pr-14`}
+                  style={{ borderColor: confirmPass ? (passwordsMatch ? 'rgba(212,160,23,0.45)' : 'rgba(220,38,38,0.38)') : undefined }}
                 />
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                  {confirmPass && passwordsMatch && (
-                    <Check size={13} className="text-[#D4A017]" />
-                  )}
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                  {confirmPass && passwordsMatch && <Check size={12} className="text-[#D4A017]" />}
                   <button
                     type="button"
-                    onClick={() => setShowConfirm((v) => !v)}
-                    className="text-[#7A5C43] hover:text-[#D4A017] transition-colors"
+                    onClick={() => setShowConfirm(v => !v)}
+                    className="text-[#5A4535] hover:text-[#D4A017] transition-colors"
                   >
-                    {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
+                    {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
               </div>
@@ -252,7 +253,7 @@ export default function SignUp() {
               <motion.div
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="px-4 py-3 rounded-xl text-xs font-tamil-serif border border-red-500/30 bg-red-500/10 text-red-400"
+                className="px-4 py-3 rounded-xl text-xs font-tamil-serif border border-red-500/28 bg-red-500/8 text-red-400"
               >
                 {error}
               </motion.div>
@@ -262,16 +263,16 @@ export default function SignUp() {
             <motion.button
               type="submit"
               disabled={submitting}
-              whileHover={!submitting ? { scale: 1.02, boxShadow: '0 0 28px rgba(212,160,23,0.5)' } : {}}
+              whileHover={!submitting ? { scale: 1.02, boxShadow: '0 0 32px rgba(212,160,23,0.52)' } : {}}
               whileTap={!submitting ? { scale: 0.98 } : {}}
-              className="w-full flex items-center justify-center gap-2.5 py-4 rounded-xl text-sm font-bold font-tamil-serif text-[#1F1B16] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-2"
-              style={{ background: 'linear-gradient(135deg, #D4A017 0%, #FFD54F 50%, #D4A017 100%)' }}
+              className="w-full flex items-center justify-center gap-3 py-4 rounded-xl text-sm font-bold font-tamil-serif text-[#1F1B16] transition-all duration-300 disabled:opacity-55 disabled:cursor-not-allowed mt-2 min-h-[56px]"
+              style={{ background: 'linear-gradient(135deg, #C49010 0%, #FFD54F 50%, #D4A017 100%)' }}
             >
               {submitting ? (
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
-                  className="w-4 h-4 rounded-full border-2 border-[#1F1B16]/30 border-t-[#1F1B16]"
+                  transition={{ duration: 0.85, repeat: Infinity, ease: 'linear' }}
+                  className="w-4 h-4 rounded-full border-2 border-[#1F1B16]/28 border-t-[#1F1B16]"
                 />
               ) : (
                 <>
@@ -284,13 +285,13 @@ export default function SignUp() {
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-7">
-            <div className="flex-1 h-px bg-[#D4A017]/12" />
-            <span className="text-[#D4A017]/40 text-xs font-tamil-serif">அல்லது</span>
-            <div className="flex-1 h-px bg-[#D4A017]/12" />
+            <div className="flex-1 h-px bg-[#D4A017]/10" />
+            <span className="text-[#D4A017]/38 text-xs font-tamil-serif">அல்லது</span>
+            <div className="flex-1 h-px bg-[#D4A017]/10" />
           </div>
 
           {/* Sign in link */}
-          <p className="text-center text-xs text-[#F5E6CC]/35 font-tamil-serif">
+          <p className="text-center text-xs text-[#F5E6CC]/32 font-tamil-serif">
             ஏற்கனவே கணக்கு உள்ளதா?{' '}
             <Link
               to="/signin"
@@ -303,8 +304,7 @@ export default function SignUp() {
       </motion.div>
 
       {/* Bottom gold line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+      <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
         style={{ background: 'linear-gradient(90deg, transparent, #D4A017, transparent)' }}
       />
     </div>
