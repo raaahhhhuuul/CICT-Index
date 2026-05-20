@@ -40,7 +40,7 @@ function StatCard({ icon: Icon, label, value, sublabel, color, darkMode, delay }
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -4, boxShadow: '0 20px 60px rgba(0,0,0,0.15)' }}
-      className={`relative rounded-2xl p-7 overflow-hidden cursor-default transition-all duration-300 ${
+      className={`relative rounded-2xl p-8 overflow-hidden cursor-default transition-all duration-300 ${
         darkMode
           ? 'bg-gradient-to-br from-[#2D2420] to-[#1F1B16] border border-[#D4A017]/15'
           : 'bg-white border border-[#E8D5B5] shadow-md shadow-[#D4A017]/10'
@@ -54,7 +54,7 @@ function StatCard({ icon: Icon, label, value, sublabel, color, darkMode, delay }
 
       {/* Icon */}
       <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 relative z-10"
+        className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 relative z-10"
         style={{ background: `linear-gradient(135deg, ${color}22, ${color}44)`, border: `1px solid ${color}44` }}
       >
         <Icon size={22} style={{ color }} />
@@ -136,7 +136,7 @@ export default function StatsCards({ darkMode }) {
     <section
       id="stats"
       ref={sectionRef}
-      className={`py-20 px-4 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#F5E6CC]/30'}`}
+      className={`py-24 lg:py-28 px-4 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#F5E6CC]/30'}`}
     >
       {/* Section divider */}
       <motion.div
@@ -157,7 +157,7 @@ export default function StatsCards({ darkMode }) {
       </motion.div>
 
       {/* Cards grid */}
-      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 sm:gap-8">
         {cardData.map((card) => (
           <StatCard key={card.label} {...card} darkMode={darkMode} />
         ))}

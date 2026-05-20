@@ -69,7 +69,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
     <section
       id="results"
       ref={ref}
-      className={`py-20 px-4 ${darkMode ? 'bg-[#1A1510]' : 'bg-[#FAF6EF]'}`}
+      className={`py-24 lg:py-28 px-4 ${darkMode ? 'bg-[#1A1510]' : 'bg-[#FAF6EF]'}`}
     >
       {/* Heading */}
       <motion.div
@@ -149,14 +149,14 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                     ? 'linear-gradient(135deg, #3D1A0A, #6B0F1A)'
                     : 'linear-gradient(135deg, #6B0F1A, #8B3A1A)',
                 }}>
-                  <th className="px-3 py-1 text-center w-10">
+                  <th className="px-3 py-5 text-center w-10">
                     <span className="text-[#D4A017]/60 text-xs">#</span>
                   </th>
                   {columns.map((col) => (
                     <th
                       key={col.key}
                       onClick={() => handleSort(col.key)}
-                      className="px-5 py-4 text-left text-[#FFD54F] font-tamil-serif font-semibold text-xs tracking-wide cursor-pointer hover:text-[#FFD54F] select-none"
+                      className="px-6 py-5 text-left text-[#FFD54F] font-tamil-serif font-semibold text-xs tracking-wide cursor-pointer hover:text-[#FFD54F] select-none"
                     >
                       <div className="flex items-center gap-1.5">
                         {col.label}
@@ -184,13 +184,13 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                             : 'bg-[#FDF7EE] border-[#E8D5B5] hover:bg-[#FFF8F0]'
                       }`}
                     >
-                      <td className={`px-4 py-4 text-center text-xs ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
+                      <td className={`px-4 py-5 text-center text-xs ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
                         {page * PAGE_SIZE + i + 1}
                       </td>
                       {columns.map((col) => (
                         <td
                           key={col.key}
-                          className={`px-5 py-4 font-tamil-serif leading-relaxed ${
+                          className={`px-6 py-5 font-tamil-serif leading-relaxed ${
                             col.key === 'nool'
                               ? `font-semibold ${darkMode ? 'text-[#D4A017]' : 'text-[#6B0F1A]'}`
                               : col.key === 'padalElam' || col.key === 'adi'

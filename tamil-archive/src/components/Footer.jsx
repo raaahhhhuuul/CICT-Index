@@ -31,7 +31,7 @@ export default function Footer({ darkMode }) {
       />
 
       {/* Decorative kolam top */}
-      <div className="text-center pt-8 pb-2 opacity-20">
+      <div className="text-center pt-8 pb-4 opacity-20">
         {KOLAM_PATTERN.map((row, i) => (
           <p key={i} className="text-[#D4A017] text-xs tracking-[0.5em] leading-6">
             {row}
@@ -39,8 +39,8 @@ export default function Footer({ darkMode }) {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14 mb-10">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">

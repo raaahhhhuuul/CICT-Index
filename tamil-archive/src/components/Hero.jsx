@@ -1,105 +1,84 @@
-import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
   id: i,
-  size: 4 + Math.random() * 8,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  delay: Math.random() * 4,
-  duration: 4 + Math.random() * 4,
-  char: ['ம', 'த', 'ழ', 'க', 'அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ண'][Math.floor(Math.random() * 10)],
+  size: 9 + (i % 4) * 3,
+  x: (i * 5.56 + 3) % 100,
+  y: (i * 11.8 + 7) % 100,
+  delay: (i * 0.28) % 4,
+  duration: 5 + (i % 4),
+  char: ['ம', 'த', 'ழ', 'க', 'அ', 'ஆ', 'இ', 'உ', 'ண'][i % 9],
+  op: 0.1 + (i % 4) * 0.04,
 }));
 
-export default function Hero({ darkMode }) {
+export default function Hero({ darkMode, onCTAClick }) {
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden manuscript-noise"
       style={{
         background: darkMode
-          ? 'linear-gradient(135deg, #0D0A07 0%, #1F1B16 30%, #2D1F0E 60%, #3D1A0A 100%)'
-          : 'linear-gradient(135deg, #3D0B13 0%, #6B0F1A 35%, #8B3A1A 65%, #B55239 100%)',
+          ? 'linear-gradient(155deg, #0D0A07 0%, #1A1510 25%, #2C1E0D 55%, #3B1808 100%)'
+          : 'linear-gradient(155deg, #2A0810 0%, #580D16 30%, #781C14 65%, #9C4030 100%)',
       }}
     >
-      {/* Decorative background layers */}
-      <div className="absolute inset-0 kolam-bg opacity-30" />
-
-      {/* Radial glow */}
+      <div className="absolute inset-0 kolam-bg opacity-20 pointer-events-none" />
       <div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(212,160,23,0.12) 0%, transparent 70%)',
-        }}
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 42%, rgba(212,160,23,0.09) 0%, transparent 68%)' }}
       />
 
-      {/* Floating Tamil letter particles */}
-      {PARTICLES.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute font-tamil-serif select-none pointer-events-none"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            fontSize: p.size,
-            color: 'rgba(212,160,23,0.25)',
-          }}
-          animate={{
-            y: [0, -22, 0],
-            rotate: [0, 180, 360],
-            opacity: [0.3, 0.7, 0.3],
-          }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          {p.char}
-        </motion.div>
-      ))}
-
-      {/* Top ornamental border */}
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute top-0 left-0 right-0 h-1"
-        style={{ background: 'linear-gradient(90deg, transparent, #D4A017, #FFD54F, #D4A017, transparent)' }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, transparent 0%, #D4A017 30%, #FFD54F 50%, #D4A017 70%, transparent 100%)' }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-10 sm:px-16 lg:px-24 max-w-5xl mx-auto" style={{ marginTop: '-80px' }}>
-        {/* Institution badge */}
+      {PARTICLES.map((p) => (
+        <motion.span
+          key={p.id}
+          className="absolute font-tamil-serif select-none pointer-events-none"
+          style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.size, color: `rgba(212,160,23,${p.op})` }}
+          animate={{ y: [0, -18, 0], opacity: [p.op, p.op * 2.8, p.op] }}
+          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          {p.char}
+        </motion.span>
+      ))}
+
+      <div
+        className="relative z-10 text-center px-6 sm:px-10 lg:px-12 max-w-4xl mx-auto w-full"
+        style={{ marginTop: '-64px' }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          className="inline-flex items-center gap-3 rounded-full border border-[#D4A017]/40 bg-[#D4A017]/10 mb-16"
-          style={{ padding: '18px 52px' }}
+          className="inline-flex items-center gap-2.5 rounded-full border border-[#D4A017]/30 px-5 py-2.5 mb-10"
+          style={{ backgroundColor: 'rgba(212,160,23,0.07)' }}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse" />
-          <span className="text-[#D4A017] text-xs font-medium tracking-widest uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0" />
+          <span className="text-[#D4A017] text-[10.5px] font-medium tracking-[0.22em] uppercase leading-none">
             Classical Tamil Literature Archive
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0" />
         </motion.div>
 
-        {/* Main Tamil title */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="font-tamil-serif font-bold leading-tight mb-4"
+          transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="font-tamil-serif font-bold mb-8"
           style={{
-            fontSize: 'clamp(1.8rem, 5vw, 3.8rem)',
-            background: 'linear-gradient(135deg, #FFD54F 0%, #D4A017 40%, #FFD54F 70%, #B8860B 100%)',
+            fontSize: 'clamp(2.4rem, 5.5vw, 4.6rem)',
+            lineHeight: 1.1,
+            background: 'linear-gradient(135deg, #FFE082 0%, #D4A017 35%, #FFD54F 65%, #B8860B 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            textShadow: 'none',
-            filter: 'drop-shadow(0 0 20px rgba(212,160,23,0.4))',
+            filter: 'drop-shadow(0 0 32px rgba(212,160,23,0.28))',
           }}
         >
           இணையவழிச் செவ்வியல்
@@ -107,90 +86,100 @@ export default function Hero({ darkMode }) {
           தமிழ்த் தேடறைவு
         </motion.h1>
 
-        {/* Ornamental divider */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="flex items-center justify-center gap-3 my-5"
+          transition={{ delay: 0.75, duration: 0.9 }}
+          className="flex items-center justify-center gap-4 mb-9"
         >
-          <div className="h-px flex-1 max-w-24" style={{ background: 'linear-gradient(90deg, transparent, #D4A017)' }} />
-          <span className="text-[#D4A017] text-xl">❋</span>
-          <div className="h-px flex-1 max-w-24" style={{ background: 'linear-gradient(90deg, #D4A017, transparent)' }} />
+          <div className="h-px w-24 sm:w-32" style={{ background: 'linear-gradient(90deg, transparent, #D4A017)' }} />
+          <span className="text-[#D4A017] text-xl" style={{ filter: 'drop-shadow(0 0 8px rgba(212,160,23,0.55))' }}>❋</span>
+          <div className="h-px w-24 sm:w-32" style={{ background: 'linear-gradient(90deg, #D4A017, transparent)' }} />
         </motion.div>
 
-        {/* Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.7 }}
-          className="font-tamil-serif text-[#F5E6CC]/85 mb-2"
-          style={{ fontSize: 'clamp(1rem, 2.5vw, 1.35rem)' }}
+          className="font-tamil-serif text-[#F5E6CC]/78 mb-2.5"
+          style={{ fontSize: 'clamp(1rem, 2.2vw, 1.28rem)', lineHeight: 1.5 }}
         >
           செம்மொழித் தமிழாய்வு மத்திய நிறுவனம்
         </motion.p>
-
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.6 }}
-          className="text-[#D4A017]/70 text-sm tracking-widest mb-10"
+          transition={{ delay: 1.05, duration: 0.6 }}
+          className="text-[#D4A017]/50 text-[11px] tracking-[0.3em] uppercase mb-14"
         >
           Central Institute of Classical Tamil
         </motion.p>
 
-        {/* CTA buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="flex items-center justify-center gap-10 flex-wrap"
+          transition={{ delay: 1.2, duration: 0.7 }}
+          className="flex items-center justify-center gap-4 sm:gap-6 flex-wrap"
         >
+          {onCTAClick ? (
+            <motion.button
+              onClick={onCTAClick}
+              whileHover={{ scale: 1.04, boxShadow: '0 0 44px rgba(212,160,23,0.5), 0 10px 40px rgba(0,0,0,0.35)' }}
+              whileTap={{ scale: 0.97 }}
+              className="rounded-full text-[13px] font-bold font-tamil-serif text-[#1A1408] tracking-wide px-12 sm:px-16 py-4 sm:py-5"
+              style={{ background: 'linear-gradient(135deg, #C49010 0%, #FFD54F 45%, #D4A017 100%)', boxShadow: '0 4px 24px rgba(212,160,23,0.25)' }}
+            >
+              தேடல் தொடங்கு
+            </motion.button>
+          ) : (
+            <motion.a
+              href="#search"
+              whileHover={{ scale: 1.04, boxShadow: '0 0 44px rgba(212,160,23,0.5), 0 10px 40px rgba(0,0,0,0.35)' }}
+              whileTap={{ scale: 0.97 }}
+              className="rounded-full text-[13px] font-bold font-tamil-serif text-[#1A1408] tracking-wide px-12 sm:px-16 py-4 sm:py-5"
+              style={{ background: 'linear-gradient(135deg, #C49010 0%, #FFD54F 45%, #D4A017 100%)', boxShadow: '0 4px 24px rgba(212,160,23,0.25)' }}
+            >
+              தேடல் தொடங்கு
+            </motion.a>
+          )}
           <motion.a
-            href="#search"
-            whileHover={{ scale: 1.05, boxShadow: '0 0 28px rgba(212,160,23,0.5)' }}
+            href="#features"
+            whileHover={{ scale: 1.03, backgroundColor: 'rgba(212,160,23,0.09)', borderColor: 'rgba(212,160,23,0.65)' }}
             whileTap={{ scale: 0.97 }}
-            className="rounded-full text-sm font-semibold font-tamil-serif text-[#1F1B16] cursor-pointer tracking-wide"
-            style={{ background: 'linear-gradient(135deg, #D4A017, #FFD54F, #D4A017)', padding: '22px 64px' }}
+            className="rounded-full text-[13px] font-semibold font-tamil-serif border text-[#D4A017] px-12 sm:px-16 py-4 sm:py-5 transition-all duration-300"
+            style={{ borderColor: 'rgba(212,160,23,0.38)' }}
           >
-            தேடல் தொடங்கு
-          </motion.a>
-          <motion.a
-            href="#results"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="rounded-full text-sm font-semibold font-tamil-serif border border-[#D4A017]/50 text-[#D4A017] hover:bg-[#D4A017]/10 transition-colors cursor-pointer tracking-wide"
-            style={{ padding: '22px 64px' }}
-          >
-            முடிவுகள் காண்க
+            மேலும் அறிக
           </motion.a>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.5 }}
-          className="mt-14 flex flex-col items-center gap-2"
+          transition={{ delay: 1.9, duration: 0.6 }}
+          className="mt-20 flex flex-col items-center gap-2.5"
         >
-          <span className="text-[#D4A017]/50 text-xs tracking-wider">கீழே செல்க</span>
+          <span className="text-[#D4A017]/38 text-[10px] tracking-[0.4em] uppercase">கீழே செல்க</span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-5 h-8 rounded-full border border-[#D4A017]/30 flex items-start justify-center pt-1.5"
+            animate={{ y: [0, 9, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-5 h-8 rounded-full border border-[#D4A017]/22 flex items-start justify-center pt-1.5"
           >
-            <div className="w-1 h-1.5 rounded-full bg-[#D4A017]/60" />
+            <motion.div
+              animate={{ scaleY: [1, 0.5, 1], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-1 h-2 rounded-full bg-[#D4A017]/55"
+            />
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-32"
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
         style={{
           background: darkMode
-            ? 'linear-gradient(to bottom, transparent, #1F1B16)'
-            : 'linear-gradient(to bottom, transparent, #FAF6EF)',
+            ? 'linear-gradient(to bottom, transparent 0%, #1F1B16 100%)'
+            : 'linear-gradient(to bottom, transparent 0%, #FAF6EF 100%)',
         }}
       />
     </section>

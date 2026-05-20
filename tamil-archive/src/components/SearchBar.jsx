@@ -22,14 +22,14 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
     if (e.key === 'Enter') handleSearch();
   };
 
-  const inputBase = `w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-300 font-tamil-serif ${
+  const inputBase = `w-full px-4 py-4 rounded-xl text-sm outline-none transition-all duration-300 font-tamil-serif ${
     darkMode
       ? 'bg-[#2D2420] text-[#F5E6CC] placeholder-[#7A5C43] border border-[#3D2F24]'
       : 'bg-white text-[#1F1B16] placeholder-[#A89070] border border-[#E8D5B5]'
   } focus:border-[#D4A017] focus:ring-2 focus:ring-[#D4A017]/20`;
 
   return (
-    <section id="search" className={`py-20 px-4 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#FAF6EF]'}`}>
+    <section id="search" className={`py-24 lg:py-28 px-4 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#FAF6EF]'}`}>
       {/* Section heading */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className={`max-w-5xl mx-auto rounded-2xl p-8 sm:p-10 shadow-xl glass-card`}
+        className={`max-w-5xl mx-auto rounded-2xl p-10 sm:p-12 shadow-xl glass-card`}
         style={{
           background: darkMode
             ? 'rgba(45,36,32,0.8)'
@@ -105,7 +105,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
             </label>
             <button
               onClick={() => setBookOpen(!bookOpen)}
-              className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-tamil-serif transition-all duration-300 ${
+              className={`w-full flex items-center justify-between px-4 py-4 rounded-xl text-sm font-tamil-serif transition-all duration-300 ${
                 darkMode
                   ? 'bg-[#2D2420] text-[#F5E6CC] border border-[#3D2F24] hover:border-[#D4A017]'
                   : 'bg-white text-[#1F1B16] border border-[#E8D5B5] hover:border-[#D4A017]'
@@ -157,7 +157,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
             whileHover={{ scale: 1.04, boxShadow: '0 0 24px rgba(212,160,23,0.45)' }}
             whileTap={{ scale: 0.97 }}
             onClick={handleSearch}
-            className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-semibold font-tamil-serif text-white cursor-pointer whitespace-nowrap self-end"
+            className="flex items-center gap-2.5 px-10 py-4 rounded-xl text-sm font-semibold font-tamil-serif text-white cursor-pointer whitespace-nowrap self-end"
             style={{ background: 'linear-gradient(135deg, #6B0F1A 0%, #9B2335 50%, #D4A017 100%)' }}
           >
             <Search size={15} />
