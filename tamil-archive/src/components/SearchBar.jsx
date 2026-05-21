@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, ChevronDown, Clock } from 'lucide-react';
-import { books } from '../data/literatureData';
+import { Search, X, ChevronDown, Clock } from 'lucide-react';
 
-export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWord }) {
+export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWord, books = [] }) {
   const [selectedBook, setSelectedBook] = useState(books[0]);
   const [bookOpen, setBookOpen]         = useState(false);
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [history, setHistory]           = useState(['அன்பு', 'யாதும்', 'அகரம்']);
 
   const handleSearch = () => {
@@ -29,7 +27,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
   return (
     <section
       id="search"
-      className={`py-28 lg:py-36 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#FAF6EF]'}`}
+      className={`py-14 lg:py-20 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#FAF6EF]'}`}
     >
       <div className="cx">
 
@@ -79,12 +77,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
           <div className="flex flex-col sm:flex-row gap-4 items-end">
 
             {/* Word input */}
-            <div className="flex-1 relative pt-5">
-              <label className={`absolute top-2 left-3.5 text-[11px] px-1 tracking-wider font-semibold z-10 uppercase ${
-                darkMode ? 'text-[#D4A017] bg-[#2A1F18]' : 'text-[#6B0F1A] bg-white'
-              }`}>
-                சொல் / Word
-              </label>
+            <div className="flex-1 relative">
               <div className="relative">
                 <input
                   type="text"
@@ -108,12 +101,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
             </div>
 
             {/* Book dropdown */}
-            <div className="relative min-w-[220px] pt-5">
-              <label className={`absolute top-2 left-3.5 text-[11px] px-1 tracking-wider font-semibold z-10 uppercase ${
-                darkMode ? 'text-[#D4A017] bg-[#2A1F18]' : 'text-[#6B0F1A] bg-white'
-              }`}>
-                நூல் / Book
-              </label>
+            <div className="relative min-w-[220px]">
               <button
                 onClick={() => setBookOpen(!bookOpen)}
                 className={[
@@ -169,7 +157,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
               whileHover={{ scale: 1.04, boxShadow: '0 0 28px rgba(212,160,23,0.48)' }}
               whileTap={{ scale: 0.97 }}
               onClick={handleSearch}
-              className="flex items-center gap-2.5 px-9 py-4 rounded-xl text-sm font-semibold font-tamil-serif text-white cursor-pointer whitespace-nowrap self-end min-h-[54px]"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold font-tamil-serif text-white cursor-pointer whitespace-nowrap self-end"
               style={{ background: 'linear-gradient(135deg, #6B0F1A 0%, #9B2335 50%, #D4A017 100%)' }}
             >
               <Search size={15} />
@@ -177,56 +165,6 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
             </motion.button>
           </div>
 
-          {/* Advanced filter toggle */}
-          <div className="mt-6 flex items-center justify-between">
-            <button
-              onClick={() => setShowAdvanced(!showAdvanced)}
-              className={`flex items-center gap-1.5 text-xs font-medium transition-colors ${
-                darkMode ? 'text-[#D4A017]/68 hover:text-[#D4A017]' : 'text-[#B55239] hover:text-[#6B0F1A]'
-              }`}
-            >
-              <SlidersHorizontal size={13} />
-              மேம்பட்ட தேடல்
-              <motion.span animate={{ rotate: showAdvanced ? 180 : 0 }}>
-                <ChevronDown size={13} />
-              </motion.span>
-            </button>
-            <p className={`text-xs ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
-              Enter அழுத்தி தேடலாம்
-            </p>
-          </div>
-
-          {/* Advanced panel */}
-          <AnimatePresence>
-            {showAdvanced && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className={`mt-5 pt-5 border-t grid grid-cols-1 sm:grid-cols-3 gap-4 ${
-                  darkMode ? 'border-[#D4A017]/12' : 'border-[#D4A017]/18'
-                }`}>
-                  {[
-                    { label: 'பாடல் எண்',  placeholder: 'உ.ம்: 1-100' },
-                    { label: 'அடி எண்',    placeholder: 'உ.ம்: 1' },
-                    { label: 'ஆசிரியர்',   placeholder: 'ஆசிரியர் பெயர்' },
-                  ].map((field) => (
-                    <div key={field.label} className="relative pt-4">
-                      <label className={`absolute top-1.5 left-3.5 text-[9px] px-1 z-10 uppercase tracking-wider font-semibold ${
-                        darkMode ? 'text-[#D4A017] bg-[#2A1F18]' : 'text-[#6B0F1A] bg-white'
-                      }`}>
-                        {field.label}
-                      </label>
-                      <input type="text" placeholder={field.placeholder} className={inputBase} />
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
 
         {/* Search history chips */}
@@ -235,7 +173,7 @@ export default function SearchBar({ darkMode, onSearch, searchWord, setSearchWor
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="mt-6 flex items-center gap-3 flex-wrap"
+          className="mt-10 flex items-center gap-3 flex-wrap"
         >
           <span className={`text-xs flex items-center gap-1.5 ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
             <Clock size={11} /> சமீபத்திய:

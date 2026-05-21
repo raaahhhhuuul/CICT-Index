@@ -89,7 +89,7 @@ export default function FeatureCards({ darkMode }) {
             <div className="h-px w-12 sm:w-20" style={{ background: 'linear-gradient(90deg, #D4A017, transparent)' }} />
           </div>
           <p
-            className={`font-tamil-serif leading-relaxed max-w-[480px] mx-auto ${darkMode ? 'text-[#F5E6CC]/42' : 'text-[#7A5C43]'}`}
+            className={`font-tamil-serif leading-relaxed whitespace-nowrap mx-auto text-center ${darkMode ? 'text-[#F5E6CC]/42' : 'text-[#7A5C43]'}`}
             style={{ fontSize: '0.8125rem' }}
           >
             செம்மொழித் தமிழ் இலக்கியங்களை டிஜிட்டல் வழியில் எளிதாக ஆராய உதவும் நவீன கருவிகள்

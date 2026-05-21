@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown, Download, Filter } from 'lucide-react';
-import { tableData } from '../data/literatureData';
 
 function highlightWord(text, word) {
   if (!word || !word.trim()) return text;
@@ -23,7 +22,7 @@ const columns = [
   { key: 'adi',             label: 'அடி',                   shortLabel: 'அடி'      },
 ];
 
-export default function ResultsTable({ darkMode, searchWord, results }) {
+export default function ResultsTable({ darkMode, searchWord, results, tableData = [], hasSearched = false }) {
   const ref           = useRef(null);
   const inView        = useInView(ref, { once: true, margin: '-60px' });
   const [sortKey, setSortKey]       = useState(null);
@@ -32,7 +31,8 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
   const [page, setPage]             = useState(0);
   const PAGE_SIZE = 8;
 
-  const displayData  = results && results.length > 0 ? results : tableData;
+  const noResults    = hasSearched && results.length === 0;
+  const displayData  = hasSearched ? results : tableData;
   const uniqueNools  = ['அனைத்தும்', ...new Set(displayData.map(r => r.nool))];
   const filtered     = filterNool === 'அனைத்தும்' ? displayData : displayData.filter(r => r.nool === filterNool);
   const sorted       = sortKey
@@ -60,7 +60,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
     <section
       id="results"
       ref={ref}
-      className={`py-28 lg:py-36 ${darkMode ? 'bg-[#1A1510]' : 'bg-[#FAF6EF]'}`}
+      className={`py-14 lg:py-20 ${darkMode ? 'bg-[#1A1510]' : 'bg-[#FAF6EF]'}`}
     >
       <div className="cx">
 
@@ -69,37 +69,32 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-10"
+          className="mb-8 pt-8"
         >
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-            <div>
-              <p className={`text-[11.5px] tracking-[0.3em] uppercase mb-2 ${darkMode ? 'text-[#D4A017]/58' : 'text-[#B55239]/68'}`}>
-                Search Results
-              </p>
-              <h2 className={`font-tamil-serif text-2xl font-bold ${darkMode ? 'text-[#F5E6CC]' : 'text-[#6B0F1A]'}`}>
-                தேடல் முடிவுகள்
-                {searchWord && (
-                  <span className="ml-3 text-base font-normal text-[#D4A017]">— "{searchWord}"</span>
-                )}
-              </h2>
-            </div>
+          <div className="flex flex-col items-center gap-6">
+            <h2 className={`font-tamil-serif text-2xl font-bold text-center ${darkMode ? 'text-[#F5E6CC]' : 'text-[#6B0F1A]'}`}>
+              தேடல் முடிவுகள்
+              {searchWord && (
+                <span className="ml-3 text-base font-normal text-[#D4A017]">— "{searchWord}"</span>
+              )}
+            </h2>
 
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-3 flex-wrap justify-center">
               {/* Filter */}
-              <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs ${
+              <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm ${
                 darkMode ? 'border-[#D4A017]/18 bg-[#2D2420]' : 'border-[#E8D5B5] bg-white'
               }`}>
-                <Filter size={11} className="text-[#D4A017]" />
+                <Filter size={13} className="text-[#D4A017]" />
                 <select
                   value={filterNool}
                   onChange={e => { setFilterNool(e.target.value); setPage(0); }}
-                  className={`outline-none font-tamil-serif bg-transparent text-xs ${darkMode ? 'text-[#F5E6CC]' : 'text-[#1F1B16]'}`}
+                  className={`outline-none font-tamil-serif bg-transparent text-sm ${darkMode ? 'text-[#F5E6CC]' : 'text-[#1F1B16]'}`}
                 >
                   {uniqueNools.map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
               </div>
 
-              <span className={`text-xs px-4 py-2.5 rounded-xl border ${
+              <span className={`text-sm px-4 py-2 rounded-xl border ${
                 darkMode ? 'border-[#D4A017]/18 text-[#D4A017]/78 bg-[#2D2420]' : 'border-[#E8D5B5] text-[#7A5C43] bg-white'
               }`}>
                 {sorted.length} முடிவுகள்
@@ -108,7 +103,7 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className={`flex items-center gap-1.5 text-xs px-4 py-2.5 rounded-xl border transition-colors ${
+                className={`flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl border transition-colors ${
                   darkMode
                     ? 'border-[#D4A017]/18 text-[#D4A017] hover:bg-[#D4A017]/10'
                     : 'border-[#6B0F1A]/18 text-[#6B0F1A] hover:bg-[#6B0F1A]/5'
@@ -120,8 +115,28 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
           </div>
         </motion.div>
 
+        {/* No results message */}
+        {noResults && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className={`flex flex-col items-center justify-center py-24 rounded-2xl border ${
+              darkMode ? 'border-[#D4A017]/12 bg-[#2D2420]' : 'border-[#E8D5B5] bg-white'
+            }`}
+          >
+            <span className="text-4xl mb-4">🔍</span>
+            <p className={`font-tamil-serif text-xl font-semibold mb-2 ${darkMode ? 'text-[#F5E6CC]' : 'text-[#6B0F1A]'}`}>
+              முடிவுகள் எதுவும் இல்லை
+            </p>
+            <p className={`font-tamil-serif text-sm ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
+              No results found for &ldquo;{searchWord}&rdquo;
+            </p>
+          </motion.div>
+        )}
+
         {/* Desktop table */}
-        <motion.div
+        {!noResults && <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.15 }}
@@ -138,17 +153,17 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                       ? 'linear-gradient(135deg, #3D1A0A, #6B0F1A)'
                       : 'linear-gradient(135deg, #6B0F1A, #8B3A1A)',
                   }}>
-                    <th className="px-4 py-5 text-center w-12">
-                      <span className="text-[#D4A017]/55 text-xs">#</span>
+                    <th className="px-3 py-3 text-center">
+                      <span className="text-[#FFD54F] text-xs font-tamil-serif font-semibold tracking-wide">வரிசை எண்</span>
                     </th>
                     {columns.map((col) => (
                       <th
                         key={col.key}
                         onClick={() => handleSort(col.key)}
-                        className="px-6 py-5 text-left text-[#FFD54F] font-tamil-serif font-semibold text-[13.5px] tracking-wide cursor-pointer hover:text-[#FFE082] select-none transition-colors"
+                        className="px-3 py-3 text-left text-[#FFD54F] font-tamil-serif font-semibold text-xs tracking-wide cursor-pointer hover:text-[#FFE082] select-none transition-colors"
                       >
-                        <div className="flex items-center gap-1.5">
-                          {col.label}
+                        <div className="flex items-center gap-1">
+                          {col.shortLabel}
                           <SortIcon col={col.key} />
                         </div>
                       </th>
@@ -173,18 +188,18 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
                               : 'bg-[#FDF8F2] border-[#E8D5B5] hover:bg-[#FFF9F2]'
                         }`}
                       >
-                        <td className={`px-4 py-5 text-center text-xs ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
+                        <td className={`px-3 py-3 text-center text-xs ${darkMode ? 'text-[#7A5C43]' : 'text-[#A89070]'}`}>
                           {page * PAGE_SIZE + i + 1}
                         </td>
                         {columns.map((col) => (
                           <td
                             key={col.key}
-                            className={`px-6 py-5 font-tamil-serif leading-relaxed ${
+                            className={`px-3 py-3 font-tamil-serif leading-snug ${
                               col.key === 'nool'
-                                ? `font-semibold text-sm ${darkMode ? 'text-[#D4A017]' : 'text-[#6B0F1A]'}`
+                                ? `font-semibold text-xs ${darkMode ? 'text-[#D4A017]' : 'text-[#6B0F1A]'}`
                                 : col.key === 'padalElam' || col.key === 'adi'
-                                  ? `text-center text-sm ${darkMode ? 'text-[#F5E6CC]/65' : 'text-[#7A5C43]'}`
-                                  : `text-sm ${darkMode ? 'text-[#F5E6CC]/82' : 'text-[#1F1B16]/82'}`
+                                  ? `text-center text-xs ${darkMode ? 'text-[#F5E6CC]/65' : 'text-[#7A5C43]'}`
+                                  : `text-xs ${darkMode ? 'text-[#F5E6CC]/82' : 'text-[#1F1B16]/82'}`
                             }`}
                           >
                             {col.key === 'moolaPadam' || col.key === 'sandhiPirittha' || col.key === 'solPirittha'
@@ -200,10 +215,10 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
               </table>
             </div>
           </div>
-        </motion.div>
+        </motion.div>}
 
         {/* Mobile cards */}
-        <div className="md:hidden space-y-4">
+        {!noResults && <div className="md:hidden space-y-4">
           {paginated.map((row, i) => (
             <motion.div
               key={`m-${i}`}
@@ -240,10 +255,10 @@ export default function ResultsTable({ darkMode, searchWord, results }) {
               ))}
             </motion.div>
           ))}
-        </div>
+        </div>}
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {!noResults && totalPages > 1 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}

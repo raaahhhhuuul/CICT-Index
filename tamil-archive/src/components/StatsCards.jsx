@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { BookOpen, AlignJustify, Library, Users } from 'lucide-react';
-import { stats } from '../data/literatureData';
 
 function useCounter(target, duration = 1800) {
   const [count, setCount]   = useState(0);
@@ -39,7 +38,7 @@ function StatCard({ icon: Icon, label, value, sublabel, color, darkMode, delay }
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay }}
-      whileHover={{ y: -5, boxShadow: `0 24px 64px rgba(0,0,0,0.16), 0 0 28px ${color}14` }}
+      whileHover={{ y: -5, boxShadow: `0 24px 64px rgba(0,0,0,0.16), 0 0 28px ${color}14`, transition: { duration: 0.12, ease: 'easeOut' } }}
       className={`relative rounded-2xl overflow-hidden cursor-default transition-all duration-300 group ${
         darkMode
           ? 'bg-gradient-to-b from-[#2D2420] to-[#1F1B16] border border-[#D4A017]/12 hover:border-[#D4A017]/24'
@@ -94,13 +93,13 @@ function StatCard({ icon: Icon, label, value, sublabel, color, darkMode, delay }
   );
 }
 
-export default function StatsCards({ darkMode }) {
+export default function StatsCards({ darkMode, totalRows = 0 }) {
   const sectionRef = useRef(null);
   const inView     = useInView(sectionRef, { once: true });
 
   const cardData = [
-    { icon: AlignJustify, label: 'இடம்பெற்ற அடிகள்', value: stats.idamPetra, sublabel: 'Lines Indexed',   color: '#D4A017', delay: 0    },
-    { icon: BookOpen,     label: 'மொத்த அடிகள்',      value: stats.moththam, sublabel: 'Total Lines',     color: '#6B0F1A', delay: 0.12 },
+    { icon: AlignJustify, label: 'இடம்பெற்ற அடிகள்', value: totalRows, sublabel: 'Lines Indexed',   color: '#D4A017', delay: 0    },
+    { icon: BookOpen,     label: 'மொத்த அடிகள்',      value: 37543,    sublabel: 'Total Lines',     color: '#6B0F1A', delay: 0.12 },
     { icon: Library,      label: 'செவ்வியல் நூல்கள்', value: 12,             sublabel: 'Classical Works', color: '#B55239', delay: 0.24 },
     { icon: Users,        label: 'ஆசிரியர்கள்',        value: 48,             sublabel: 'Poets & Authors', color: '#7A5C43', delay: 0.36 },
   ];
@@ -109,7 +108,7 @@ export default function StatsCards({ darkMode }) {
     <section
       id="stats"
       ref={sectionRef}
-      className={`py-28 lg:py-36 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#F5E6CC]/25'}`}
+      className={`py-14 lg:py-20 relative ${darkMode ? 'bg-[#1F1B16]' : 'bg-[#F5E6CC]/25'}`}
     >
       <div className="cx">
 
@@ -118,7 +117,7 @@ export default function StatsCards({ darkMode }) {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
-          className="flex items-center gap-5 mb-14"
+          className="flex items-center gap-5 mt-3 mb-8"
         >
           <div className={`flex-1 h-px ${darkMode ? 'bg-[#D4A017]/18' : 'bg-[#D4A017]/28'}`} />
           <div className="flex items-center gap-3 flex-shrink-0">
@@ -132,7 +131,7 @@ export default function StatsCards({ darkMode }) {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
           {cardData.map((card) => (
             <StatCard key={card.label} {...card} darkMode={darkMode} />
           ))}

@@ -7,19 +7,29 @@ import ResultsTable from '../components/ResultsTable';
 import Footer from '../components/Footer';
 import LoadingScreen from '../components/LoadingScreen';
 import TamilCursor from '../components/cursor/TamilCursor';
-import { tableData } from '../data/literatureData';
+import { loadTableData } from '../data/literatureData';
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
-  const [darkMode, setDarkMode]   = useState(() => localStorage.getItem('ta_theme') === 'dark');
+  const [darkMode, setDarkMode]     = useState(() => localStorage.getItem('ta_theme') === 'dark');
   const [searchWord, setSearchWord] = useState('');
-  const [results, setResults]       = useState(tableData);
+  const [tableData, setTableData]   = useState([]);
+  const [results, setResults]       = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [books, setBooks]           = useState(['செவ்வியல் நூல்கள்']);
   const [loading, setLoading]       = useState(true);
   const { user }                    = useAuth();
 
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1600);
-    return () => clearTimeout(t);
+    loadTableData()
+      .then(rows => {
+        setTableData(rows);
+        setResults(rows);
+        const uniqueBooks = ['செவ்வியல் நூல்கள்', ...new Set(rows.map(r => r.nool).filter(Boolean))];
+        setBooks(uniqueBooks);
+      })
+      .catch(err => console.error('Failed to load data:', err))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -34,10 +44,15 @@ export default function Dashboard() {
 
   const handleSearch = (word, book) => {
     const filtered = tableData.filter((row) => {
-      const matchWord = !word.trim() || row.moolaPadam.includes(word) || row.sandhiPirittha.includes(word) || row.solPirittha.includes(word);
+      const matchWord =
+        word.trim() &&
+        (row.moolaPadam.includes(word) ||
+         row.sandhiPirittha.includes(word) ||
+         row.solPirittha.includes(word));
       const matchBook = book === 'செவ்வியல் நூல்கள்' || row.nool === book;
       return matchWord && matchBook;
     });
+    setHasSearched(true);
     setResults(filtered);
     setTimeout(() => {
       document.getElementById('results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -67,20 +82,16 @@ export default function Dashboard() {
                 ? 'linear-gradient(135deg, #1A1510 0%, #2D1F0E 50%, #1F1B16 100%)'
                 : 'linear-gradient(135deg, #3D0B13 0%, #6B0F1A 50%, #8B3A1A 100%)',
               paddingTop: '7.5rem',
-              paddingBottom: '4.5rem',
+              paddingBottom: '3rem',
             }}
           >
-            {/* Kolam + noise textures */}
             <div className="absolute inset-0 kolam-bg opacity-18 pointer-events-none" />
             <div className="absolute inset-0 manuscript-noise pointer-events-none" />
 
-            {/* Top gold line */}
             <div
               className="absolute top-0 left-0 right-0 h-px pointer-events-none"
               style={{ background: 'linear-gradient(90deg, transparent, #D4A017, #FFD54F, #D4A017, transparent)' }}
             />
-
-            {/* Radial glow */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{ background: 'radial-gradient(ellipse 55% 70% at 50% 50%, rgba(212,160,23,0.07) 0%, transparent 70%)' }}
@@ -89,7 +100,6 @@ export default function Dashboard() {
             <div className="cx relative z-10">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
 
-                {/* Left: greeting */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -108,7 +118,6 @@ export default function Dashboard() {
                   </p>
                 </motion.div>
 
-                {/* Right: quick stats */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -116,9 +125,9 @@ export default function Dashboard() {
                   className="hidden sm:flex items-center gap-4"
                 >
                   {[
-                    { label: 'நூல்கள்',    value: '12+' },
-                    { label: 'ஆசிரியர்கள்', value: '48+' },
-                    { label: 'அடிகள்',     value: '10K+' },
+                    { label: 'நூல்கள்',      value: `${books.length - 1}` },
+                    { label: 'இடம்பெற்ற அடிகள்', value: `${tableData.length}` },
+                    { label: 'மொத்த அடிகள்', value: '37K+' },
                   ].map((s) => (
                     <div
                       key={s.label}
@@ -132,7 +141,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Bottom gradient fade */}
             <div
               className="absolute bottom-0 left-0 right-0 h-10 pointer-events-none"
               style={{
@@ -149,9 +157,10 @@ export default function Dashboard() {
               onSearch={handleSearch}
               searchWord={searchWord}
               setSearchWord={setSearchWord}
+              books={books}
             />
-            <StatsCards darkMode={darkMode} />
-            <ResultsTable darkMode={darkMode} searchWord={searchWord} results={results} />
+            <StatsCards darkMode={darkMode} totalRows={tableData.length} />
+            <ResultsTable darkMode={darkMode} searchWord={searchWord} results={results} tableData={tableData} hasSearched={hasSearched} />
           </main>
 
           <Footer darkMode={darkMode} />

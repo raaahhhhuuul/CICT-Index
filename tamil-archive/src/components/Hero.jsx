@@ -65,17 +65,17 @@ export default function Hero({ darkMode, onCTAClick }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className="inline-flex items-center justify-center gap-2.5 rounded-full border border-[#D4A017]/28 px-6 py-3 mb-12"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full border border-[#D4A017]/28 px-8 py-3 mb-12"
             style={{ backgroundColor: 'rgba(212,160,23,0.06)' }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0 ml-2" />
             <span
-              className="text-[#D4A017]/90 font-medium uppercase tracking-[0.22em] leading-none"
+              className="text-[#D4A017]/90 font-medium uppercase tracking-[0.22em] leading-normal"
               style={{ fontSize: 'clamp(10.5px, 1.2vw, 12.5px)' }}
             >
               Classical Tamil Literature Archive
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-pulse flex-shrink-0 mr-2" />
           </motion.div>
 
           {/* Main title */}
@@ -83,7 +83,7 @@ export default function Hero({ darkMode, onCTAClick }) {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="font-tamil-serif font-bold mb-10 leading-[1.10]"
+            className="font-tamil-serif font-bold mb-10 leading-[1.45]"
             style={{
               fontSize: 'clamp(2.2rem, 5.5vw, 4.8rem)',
               background: 'linear-gradient(135deg, #FFE082 0%, #D4A017 30%, #FFD54F 60%, #B8860B 100%)',
@@ -93,6 +93,7 @@ export default function Hero({ darkMode, onCTAClick }) {
               filter: 'drop-shadow(0 0 36px rgba(212,160,23,0.26))',
               wordBreak: 'keep-all',
               overflowWrap: 'break-word',
+              paddingTop: '0.15em',
             }}
           >
             இணையவழிச் செவ்வியல்
